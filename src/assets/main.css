@@ -1,0 +1,39 @@
+body {
+  font-family: sans-serif;
+  padding: 2rem;
+  background: #f5f5f5;
+  color: #111;
+}
+
+#app {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+h1 {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+textarea {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1rem;
+  font-family: inherit;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+  box-sizing: border-box;
+}
+
+canvas {
+  display: block;
+  width: 100%;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+section + section {
+  margin-top: 2rem;
+}
