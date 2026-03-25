@@ -31,7 +31,7 @@ async function onSubmit(prompt: string) {
   <section>
     <PromptInput :disabled="isLoading" @submit="onSubmit" />
   </section>
-  <section aria-live="polite" aria-atomic="true">
+  <section  v-if="isLoading || error" aria-live="polite" aria-atomic="true">
     <p v-if="isLoading" class="loading">Building …</p>
     <p v-if="error" class="error" role="alert">{{ error }}</p>
   </section>
