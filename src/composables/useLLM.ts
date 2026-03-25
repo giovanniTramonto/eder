@@ -14,10 +14,10 @@ export async function askLLM(prompt: string): Promise<string> {
 
 function getSessionId(): string {
   const key = 'sessionId'
-  const existing = sessionStorage.getItem(key)
+  const existing = localStorage.getItem(key)
   if (existing) return existing
   const id = crypto.randomUUID()
-  sessionStorage.setItem(key, id)
+  localStorage.setItem(key, id)
   return id
 }
 

@@ -1,6 +1,6 @@
 import Anthropic from '@anthropic-ai/sdk'
 import { getStore } from '@netlify/blobs'
-import { MAX_PROMPT_LENGTH, MAX_SESSION_REQUESTS } from '#shared/config'
+import { MAX_PROMPT_LENGTH, MAX_SESSION_REQUESTS, SESSION_DURATION_MS } from '#shared/config'
 import { SYSTEM_PROMPT } from '#shared/prompts/systemPrompt'
 import { extractCanvasCode } from '#shared/utils/extractCode'
 
@@ -37,7 +37,7 @@ export default async (req: Request) => {
         headers: { 'Content-Type': 'application/json' },
       })
     }
-    await store.set(sessionId, count + 1)
+    await store.set(sessionId, count + 1, { ttl: SESSION_DURATION_MS / 1000 })
   }
 
   const message = await client.messages.create({
