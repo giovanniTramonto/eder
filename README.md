@@ -1,18 +1,18 @@
 # Eder
 
-Describe a piece of furniture in natural language — Meister Eder builds it for you as an isometric 2D illustration.
+Describe a piece of furniture in natural language — Master Eder builds it for you as a 2D illustration.
 
 ## Requirements
 
 - [Node.js](https://nodejs.org) (v18+)
-- [Ollama](https://ollama.com) with the `mistral` model
+- [Ollama](https://ollama.com) with the `qwen2.5-coder` model
 
 ## Setup
 
 ```bash
 # Start Ollama and pull the model
 ollama serve
-ollama pull mistral
+ollama pull qwen2.5-coder
 
 # Copy env file and adjust if needed
 cp .env.example .env
@@ -28,7 +28,7 @@ npm run dev
 
 - Vue 3 + TypeScript + Vite
 - Ollama (local)
-- HTML Canvas (isometric rendering)
+- HTML Canvas (2D perspective rendering)
 
 ## Production
 
