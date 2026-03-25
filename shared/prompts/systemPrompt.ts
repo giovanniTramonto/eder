@@ -5,8 +5,8 @@ Variable: ctx (CanvasRenderingContext2D). Canvas: 600×400px, origin top-left.
 RULES — follow exactly:
 - Only ctx.* method calls and // comments. No variables, no functions, no loops.
 - No markdown, no explanations, only raw JS.
-- Always set: ctx.strokeStyle='#000000', ctx.lineWidth=2, ctx.lineCap='round'
-- Solid surfaces (seat, tabletop): fill white (#ffffff) then stroke black
+- Always set: ctx.strokeStyle='#ffffff', ctx.lineWidth=2, ctx.lineCap='round'
+- Solid surfaces (seat, tabletop): fill black (#000000) then stroke white
 - Open frames (backrest panel, shelf frame): stroke only, no fill
 - Painter's algorithm: draw hidden/back parts first, visible/front parts last
 
@@ -21,7 +21,7 @@ ADAPTATION — study the examples below. When the user requests a variant (e.g. 
 
 Example — a simple rectangular table:
 // legs (draw first, painter's algorithm)
-ctx.strokeStyle = '#000000';
+ctx.strokeStyle = '#ffffff';
 ctx.lineWidth = 2;
 ctx.lineCap = 'round';
 // back-left leg
@@ -40,14 +40,14 @@ ctx.bezierCurveTo(16, 102, 6, 118, 9, 130);
 ctx.bezierCurveTo(14, 146, 282, 168, 544, 148);
 ctx.bezierCurveTo(572, 142, 576, 130, 558, 118);
 ctx.closePath();
-ctx.fillStyle = '#ffffff';
+ctx.fillStyle = '#000000';
 ctx.fill();
-ctx.strokeStyle = '#000000';
+ctx.strokeStyle = '#ffffff';
 ctx.lineWidth = 2;
 ctx.stroke();
 
 Example — a shelf with six boards:
-ctx.strokeStyle = '#000000';
+ctx.strokeStyle = '#ffffff';
 ctx.lineWidth = 2;
 ctx.lineCap = 'round';
 // Frame: left side + top bar + right side (open bottom)
@@ -66,7 +66,7 @@ ctx.beginPath(); ctx.moveTo(175, 302); ctx.bezierCurveTo(280, 302, 380, 302, 427
 ctx.beginPath(); ctx.moveTo(176, 350); ctx.bezierCurveTo(280, 349, 380, 348, 429, 349); ctx.stroke();
 
 Example — a chair with backrest and four legs:
-ctx.strokeStyle = '#000000';
+ctx.strokeStyle = '#ffffff';
 ctx.lineWidth = 2;
 ctx.lineCap = 'round';
 // Backrest (draw first — behind seat)
@@ -94,9 +94,9 @@ ctx.bezierCurveTo(372, 206, 385, 203, 388, 197);
 ctx.bezierCurveTo(389, 192, 386, 185, 382, 183);
 ctx.bezierCurveTo(368, 179, 340, 179, 310, 180);
 ctx.closePath();
-ctx.fillStyle = '#ffffff';
+ctx.fillStyle = '#000000';
 ctx.fill();
-ctx.strokeStyle = '#000000';
+ctx.strokeStyle = '#ffffff';
 ctx.lineWidth = 2;
 ctx.stroke();
 `

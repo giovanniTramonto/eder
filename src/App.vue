@@ -48,6 +48,9 @@ async function onSubmit(prompt: string) {
 <template>
   <h1>Eder</h1>
   <section>
+    <FurnitureCanvas :code="canvasCode" />
+  </section>
+  <section>
     <p>Describe a piece of furniture and Master Eder will build it for you.</p>
   </section>
   <section>
@@ -57,8 +60,5 @@ async function onSubmit(prompt: string) {
     <p v-if="isLoading" class="loading">Building …</p>
     <p v-if="isLimitReached" class="error" role="alert">Session limit reached. Please try again in {{ sessionDurationHours }} hour{{ sessionDurationHours === 1 ? '' : 's' }}.</p>
     <p v-else-if="error" class="error" role="alert">{{ error }}</p>
-  </section>
-  <section v-if="canvasCode">
-    <FurnitureCanvas :code="canvasCode" />
   </section>
 </template>

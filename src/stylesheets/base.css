@@ -36,8 +36,8 @@
   canvas {
     display: block;
     width: 100%;
-    background: #fff;
-    border: 1px solid #ccc;
+    background: #000;
+    border: 1px solid #333;
     border-radius: 4px;
   }
 
