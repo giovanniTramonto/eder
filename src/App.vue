@@ -20,8 +20,9 @@ const sessionDurationHours = SESSION_DURATION_MS / 1000 / 60 / 60
 const canvasCode = ref('')
 const isLoading = ref(false)
 const error = ref('')
+const isProduction = !import.meta.env.VITE_OLLAMA_URL
 const requestCount = ref(loadRequestCount())
-const isLimitReached = ref(requestCount.value >= MAX_SESSION_REQUESTS)
+const isLimitReached = ref(isProduction && requestCount.value >= MAX_SESSION_REQUESTS)
 
 async function onSubmit(prompt: string) {
   if (isLimitReached.value) return
@@ -36,7 +37,7 @@ async function onSubmit(prompt: string) {
     }
     requestCount.value++
     localStorage.setItem('requestCount', String(requestCount.value))
-    if (requestCount.value >= MAX_SESSION_REQUESTS) isLimitReached.value = true
+    if (isProduction && requestCount.value >= MAX_SESSION_REQUESTS) isLimitReached.value = true
   } catch (e) {
     error.value = (e as Error).message
   } finally {
