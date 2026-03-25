@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref } from 'vue'
 
-defineProps<{ disabled?: boolean }>();
-const emit = defineEmits<{ submit: [prompt: string] }>();
-const input = ref("");
+defineProps<{ disabled?: boolean }>()
+const emit = defineEmits<{ submit: [prompt: string] }>()
+const input = ref('')
 
 function onSubmit() {
   if (input.value.trim()) {
-    emit("submit", input.value.trim());
+    emit('submit', input.value.trim())
   }
 }
 </script>
