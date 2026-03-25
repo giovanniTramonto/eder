@@ -1,4 +1,5 @@
 import { SYSTEM_PROMPT } from '../prompts/systemPrompt'
+import { extractCanvasCode } from '../utils/extractCode'
 
 interface OllamaResponse {
   message: { content: string }
@@ -50,16 +51,7 @@ async function askOllama(prompt: string): Promise<string> {
   const data: OllamaResponse = await response.json()
   const raw = data.message.content
 
-  // Extract fenced code block if present, otherwise use full text
-  const fenced = raw.match(/```(?:\w+)?\n([\s\S]*?)```/)
-  const candidate = fenced ? fenced[1] : raw
-
-  // Keep only valid JS lines
-  const code = candidate
-    .split('\n')
-    .filter(line => /^\s*(ctx\.|\/\/|$)/.test(line))
-    .join('\n')
-    .trim()
+  const code = extractCanvasCode(raw)
 
   if (code) return code
 

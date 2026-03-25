@@ -1,5 +1,6 @@
 import Anthropic from '@anthropic-ai/sdk'
 import { SYSTEM_PROMPT } from '../../src/prompts/systemPrompt'
+import { extractCanvasCode } from '../../src/utils/extractCode'
 
 const client = new Anthropic()
 
@@ -19,14 +20,7 @@ export default async (req: Request) => {
 
   const raw = message.content[0].type === 'text' ? message.content[0].text : ''
 
-  const fenced = raw.match(/```(?:\w+)?\n([\s\S]*?)```/)
-  const candidate = fenced ? fenced[1] : raw
-
-  const code = candidate
-    .split('\n')
-    .filter((line: string) => /^\s*(ctx\.|\/\/|$)/.test(line))
-    .join('\n')
-    .trim()
+  const code = extractCanvasCode(raw)
 
   if (!code) {
     return new Response(
