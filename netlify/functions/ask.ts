@@ -1,7 +1,8 @@
 import Anthropic from '@anthropic-ai/sdk'
+import { getStore } from '@netlify/blobs'
+import { MAX_PROMPT_LENGTH, MAX_SESSION_REQUESTS } from '#shared/config'
 import { SYSTEM_PROMPT } from '#shared/prompts/systemPrompt'
 import { extractCanvasCode } from '#shared/utils/extractCode'
-import { MAX_PROMPT_LENGTH } from '#shared/config'
 
 const client = new Anthropic()
 
@@ -24,6 +25,19 @@ export default async (req: Request) => {
       status: 400,
       headers: { 'Content-Type': 'application/json' },
     })
+  }
+
+  const sessionId = req.headers.get('X-Session-Id')
+  if (sessionId) {
+    const store = getStore('sessions')
+    const count = ((await store.get(sessionId, { type: 'json' })) as number | null) ?? 0
+    if (count >= MAX_SESSION_REQUESTS) {
+      return new Response(JSON.stringify({ error: `Session limit of ${MAX_SESSION_REQUESTS} requests reached.` }), {
+        status: 429,
+        headers: { 'Content-Type': 'application/json' },
+      })
+    }
+    await store.set(sessionId, count + 1)
   }
 
   const message = await client.messages.create({

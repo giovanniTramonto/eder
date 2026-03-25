@@ -12,10 +12,22 @@ export async function askLLM(prompt: string): Promise<string> {
   return askOllama(prompt)
 }
 
+function getSessionId(): string {
+  const key = 'sessionId'
+  const existing = sessionStorage.getItem(key)
+  if (existing) return existing
+  const id = crypto.randomUUID()
+  sessionStorage.setItem(key, id)
+  return id
+}
+
 async function askNetlify(prompt: string): Promise<string> {
   const response = await fetch('/api/ask', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Session-Id': getSessionId(),
+    },
     body: JSON.stringify({ prompt }),
   })
 
