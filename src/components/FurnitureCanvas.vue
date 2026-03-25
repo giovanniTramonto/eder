@@ -14,23 +14,7 @@ function render(code: string | undefined) {
   ctx.clearRect(0, 0, 600, 400)
 
   try {
-    const iso = (x: number, y: number, z: number) => ({
-      x: 300 + (x - z) * 0.866,
-      y: 200 + (x + z) * 0.5 - y,
-    })
-    function poly(points: [number, number, number][]) {
-      const pts = points.map(([x, y, z]) => iso(x, y, z))
-      ctx.beginPath()
-      ctx.moveTo(pts[0].x, pts[0].y)
-      for (let i = 1; i < pts.length; i++) ctx.lineTo(pts[i].x, pts[i].y)
-      ctx.closePath()
-      ctx.fillStyle = '#ffffff'
-      ctx.fill()
-      ctx.strokeStyle = '#000000'
-      ctx.lineWidth = 1.5
-      ctx.stroke()
-    }
-    new Function('ctx', 'poly', code)(ctx, poly)
+    new Function('ctx', code)(ctx)
   } catch (e) {
     error.value = `Fehler beim Ausführen des Codes: ${(e as Error).message}`
   }
@@ -42,7 +26,7 @@ watch(() => props.code, render)
 
 <template>
   <div>
-    <canvas ref="canvasRef" width="600" height="400" role="img" aria-label="Isometrische Möbelzeichnung" />
+    <canvas ref="canvasRef" width="600" height="400" role="img" aria-label="Möbelzeichnung" />
     <p v-if="error" class="error" role="alert">{{ error }}</p>
   </div>
 </template>
