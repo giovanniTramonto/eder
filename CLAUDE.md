@@ -65,7 +65,7 @@ No Markdown, no explanations, only raw JS code.
 
 ## UI Flow
 1. User enters a description (e.g. "A round wooden table with four legs")
-2. Button "Draw" → `askLLM()` is called
+2. Button "Build" → `askLLM()` is called
 3. Loading indicator while the request is in progress
 4. Canvas renders the result
 5. Error message if the LLM returns no valid code
@@ -102,7 +102,7 @@ createApp(App).mount('#app')
 - Config: `biome.json`, `tsconfig.json`
 - Before every commit: `npm run format`
 - Code language: All comments, variable names, function names, and other identifiers in **English**
-- User-facing strings (error messages, labels, status text) in **German** (user language)
+- User-facing strings (error messages, labels, status text) in **English**
 - Function names always start with a verb (e.g. `renderCanvas`, `fetchData`)
 - Boolean state variables always use the `is` prefix (e.g. `isLoading`, `isDisabled`)
 - Event handler functions always start with `on` (e.g. `onSubmit`, `onClick`)

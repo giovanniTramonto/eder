@@ -121,7 +121,7 @@ export async function askLLM(prompt: string): Promise<string> {
   })
 
   if (!response.ok) {
-    throw new Error(`Ollama-Fehler: ${response.status} ${response.statusText}`)
+    throw new Error(`Ollama error: ${response.status} ${response.statusText}`)
   }
 
   const data: OllamaResponse = await response.json()
@@ -140,5 +140,5 @@ export async function askLLM(prompt: string): Promise<string> {
 
   if (code) return code
 
-  throw new Error(`Kein gültiger Code erhalten. Antwort: "${raw.slice(0, 120)}…"`)
+  throw new Error(`No valid code received. Response: "${raw.slice(0, 120)}…"`)
 }

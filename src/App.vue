@@ -26,13 +26,13 @@ async function onSubmit(prompt: string) {
 <template>
   <h1>Eder</h1>
   <section>
-    <p>Beschreibe ein Möbelstück und Meister Eder baut es dir.</p>
+    <p>Describe a piece of furniture and Master Eder will build it for you.</p>
   </section>
   <section>
     <PromptInput :disabled="isLoading" @submit="onSubmit" />
   </section>
   <section aria-live="polite" aria-atomic="true">
-    <p v-if="isLoading" class="loading">Zeichne …</p>
+    <p v-if="isLoading" class="loading">Building …</p>
     <p v-if="error" class="error" role="alert">{{ error }}</p>
   </section>
   <section v-if="canvasCode">

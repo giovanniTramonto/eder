@@ -16,7 +16,7 @@ function render(code: string | undefined) {
   try {
     new Function('ctx', code)(ctx)
   } catch (e) {
-    error.value = `Fehler beim Ausführen des Codes: ${(e as Error).message}`
+    error.value = `Error executing code: ${(e as Error).message}`
   }
 }
 
@@ -26,7 +26,7 @@ watch(() => props.code, render)
 
 <template>
   <div>
-    <canvas ref="canvasRef" width="600" height="400" role="img" aria-label="Möbelzeichnung" />
+    <canvas ref="canvasRef" width="600" height="400" role="img" aria-label="Eder's blueprint" />
     <p v-if="error" class="error" role="alert">{{ error }}</p>
   </div>
 </template>
