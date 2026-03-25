@@ -2,6 +2,8 @@
 
 Describe a piece of furniture in natural language — Master Eder builds it for you as a 2D illustration.
 
+**Demo:** https://mastereder.netlify.app/
+
 ## Requirements
 
 - [Node.js](https://nodejs.org) (v18+)
