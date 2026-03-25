@@ -62,4 +62,13 @@ async function onSubmit(prompt: string) {
     <p v-if="isLimitReached" class="error" role="alert">Session limit reached. Please try again in {{ sessionDurationHours }} hour{{ sessionDurationHours === 1 ? '' : 's' }}.</p>
     <p v-else-if="error" class="error" role="alert">{{ error }}</p>
   </section>
+  <section v-if="canvasCode && !isProduction">
+    <textarea class="canvas-code" :value="canvasCode" readonly aria-label="Generated canvas code" />
+  </section>
 </template>
+
+<style scoped>
+.canvas-code {
+  min-height: 20lh;
+}
+</style>
