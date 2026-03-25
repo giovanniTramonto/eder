@@ -4,7 +4,9 @@ import { MAX_PROMPT_LENGTH, MAX_SESSION_REQUESTS, SESSION_DURATION_MS } from '#s
 import { SYSTEM_PROMPT } from '#shared/prompts/systemPrompt'
 import { extractCanvasCode } from '#shared/utils/extractCode'
 
-const client = new Anthropic()
+const client = new Anthropic({
+  defaultHeaders: { 'anthropic-beta': 'prompt-caching-2024-07-31' },
+})
 
 export default async (req: Request) => {
   if (req.method !== 'POST') {
@@ -43,7 +45,7 @@ export default async (req: Request) => {
   const message = await client.messages.create({
     model: 'claude-haiku-4-5-20251001',
     max_tokens: 1024,
-    system: SYSTEM_PROMPT,
+    system: [{ type: 'text', text: SYSTEM_PROMPT, cache_control: { type: 'ephemeral' } }],
     messages: [{ role: 'user', content: prompt }],
   })
 
