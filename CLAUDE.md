@@ -10,7 +10,7 @@ as a simple 2D illustration.
 - TypeScript
 - Vite
 - Ollama locally via `http://localhost:11434` (model: qwen2.5-coder)
-- Anthropic SDK to be added later only in `useLLM.js` (for production/Netlify)
+- Anthropic SDK via Netlify Function (production)
 - HTML Canvas for rendering
 - No CSS framework, no UI library
 - CSS Reset: Andy Bell's Modern CSS Reset (`npm install @csstools/normalize.css`)
@@ -22,23 +22,27 @@ src/
 │   ├── PromptInput.vue      # Text input for the furniture description
 │   └── FurnitureCanvas.vue  # Canvas component for rendering
 ├── composables/
-│   └── useLLM.js            # Wrapper function askLLM() – Ollama or Anthropic
+│   └── useLLM.ts            # askLLM() – switches between Ollama and Netlify
+├── prompts/
+│   └── systemPrompt.ts      # Shared system prompt for all LLM providers
+├── stylesheets/
+│   ├── index.css            # Layer declarations + imports
+│   ├── base.css             # @layer base
+│   └── utilities.css        # @layer utilities
 ├── App.vue
-└── main.js
+└── main.ts
+netlify/
+└── functions/
+    └── ask.ts               # Netlify Function – Anthropic SDK (production)
 ```
 
-## LLM Abstraction (important!)
-All LLM communication runs through a single function in `useLLM.js`:
+## LLM Abstraction
+All LLM communication runs through `askLLM()` in `useLLM.ts`. The provider is selected via `VITE_LLM_PROVIDER`:
 
-```js
-export async function askLLM(prompt) {
-  // Local: Ollama
-  // Later for production: Anthropic SDK or Netlify Function
-}
-```
+- `ollama` (default) → calls Ollama directly from the browser
+- `anthropic` → calls the Netlify Function at `/api/ask`, which uses the Anthropic SDK server-side
 
-This function must be built so that only this one file needs to be updated
-to switch from Ollama to the Anthropic SDK.
+The system prompt lives in `src/prompts/systemPrompt.ts` and is shared by both providers.
 
 ## Ollama Configuration (local)
 - Base URL: `http://localhost:11434/api/chat`
@@ -70,18 +74,8 @@ shelf, and chair. No Markdown, no explanations, only raw JS.
 4. Canvas renders the result
 5. Error message if the LLM returns no valid code
 
-## CSS Reset
-Install Andy Bell's Modern CSS Reset and import it first in `main.js`:
-
-```js
-// main.js – import order
-import '@csstools/normalize.css'   // 1. CSS Reset
-import './assets/main.css'         // 2. Custom styles
-import { createApp } from 'vue'    // 3. Vue
-import App from './App.vue'        // 4. Root component
-
-createApp(App).mount('#app')
-```
+## CSS
+Andy Bell's Modern CSS Reset is loaded via `src/stylesheets/index.css` using `@layer reset`. Layer order: `reset → base → utilities`.
 
 ## Commands
 - `npm run dev` – Start dev server (Vite)
@@ -110,5 +104,4 @@ createApp(App).mount('#app')
 ## Notes
 - Ollama must be running locally: `ollama serve` + `ollama pull qwen2.5-coder`
 - No backend needed for local development
-- For production (Netlify), a Netlify Function will be added later to hide the
-  Anthropic API key — only `useLLM.js` needs to be updated for this
+- Production on Netlify: set `VITE_LLM_PROVIDER=anthropic` and `ANTHROPIC_API_KEY` in Netlify env vars

@@ -27,9 +27,16 @@ npm run dev
 ## Stack
 
 - Vue 3 + TypeScript + Vite
-- Ollama (local)
+- Ollama (local) / Anthropic Claude (production)
 - HTML Canvas (2D perspective rendering)
 
-## Production
+## Production (Netlify)
 
-The Anthropic SDK will be integrated for production deployment (Netlify). Only `src/composables/useLLM.ts` needs to be updated for this.
+Set these environment variables in Netlify:
+
+```
+VITE_LLM_PROVIDER=anthropic
+ANTHROPIC_API_KEY=sk-ant-...
+```
+
+The Netlify Function at `netlify/functions/ask.ts` handles the API call server-side.
