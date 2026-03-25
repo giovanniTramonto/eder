@@ -22,6 +22,6 @@ function onSubmit() {
       rows="3"
       :disabled="disabled"
     />
-    <button type="submit" class="button" :disabled="disabled">Build</button>
+    <button type="submit" :disabled="disabled">Build</button>
   </form>
 </template>

@@ -1,6 +1,4 @@
-import '@csstools/normalize.css'
-import './assets/main.css'
-import './assets/utils.css'
+import './stylesheets/index.css'
 import { createApp } from 'vue'
 import App from './App.vue'
 
