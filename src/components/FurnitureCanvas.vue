@@ -12,6 +12,9 @@ function render(code: string | undefined) {
 
   const ctx = canvasRef.value.getContext('2d')!
   ctx.clearRect(0, 0, 600, 400)
+  ctx.strokeStyle = '#ffffff'
+  ctx.lineWidth = 2
+  ctx.lineCap = 'round'
 
   try {
     new Function('ctx', code)(ctx)

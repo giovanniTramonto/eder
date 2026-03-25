@@ -11,19 +11,20 @@ RULES — follow exactly:
 - Painter's algorithm: draw hidden/back parts first, visible/front parts last
 
 PERSPECTIVE — 2D view from slightly above and in front:
-- Furniture fills most of the canvas: x from ~50 to ~550, y from ~20 to ~380
+- Default size fills most of the canvas: x from ~50 to ~550, y from ~20 to ~380
+- "small": scale all coordinates toward the canvas center so the furniture occupies roughly half the default area (x from ~175 to ~425, y from ~80 to ~320). Never go outside 0–600 (x) or 0–400 (y).
 - Far/back parts: higher on canvas (small y), closer to horizontal center
 - Near/front parts: lower on canvas (large y), wider apart
 - Legs are nearly vertical strokes, front legs slightly longer than back legs
+- All leg moveTo coordinates must fall inside the tabletop/seat shape — painter's algorithm covers them; legs must never stick out above the surface
 - Tabletops and seats are foreshortened ovals/shapes, wider than deep
 
-ADAPTATION — study the examples below. When the user requests a variant (e.g. fewer legs, more shelves), adapt the closest example: keep the coordinates and proportions, only change what the description requires.
+ADAPTATION — study the examples below. When the user requests a variant (e.g. fewer legs, more shelves), adapt the closest example and only change what the description requires. Exception: always apply size modifiers (small/large) by rescaling all coordinates to the ranges above.
+- For N legs on a table or chair: you MUST draw exactly N leg strokes — count them. Distribute N/2 evenly along the front edge and N/2 along the back edge. Example for 8 legs: front row at x≈80, 200, 360, 520; back row at x≈130, 230, 390, 510 (slightly inset, higher y). For odd N (e.g. 5): 4 corner legs + 1 single center leg at midpoint — never split center into two.
+- For N doors on a wardrobe: use N-1 dividers, one handle per door.
 
 Example — a simple rectangular table:
 // legs (draw first, painter's algorithm)
-ctx.strokeStyle = '#ffffff';
-ctx.lineWidth = 2;
-ctx.lineCap = 'round';
 // back-left leg
 ctx.beginPath(); ctx.moveTo(130, 90); ctx.lineTo(120, 210); ctx.stroke();
 // back-right leg
@@ -42,14 +43,9 @@ ctx.bezierCurveTo(572, 142, 576, 130, 558, 118);
 ctx.closePath();
 ctx.fillStyle = '#000000';
 ctx.fill();
-ctx.strokeStyle = '#ffffff';
-ctx.lineWidth = 2;
 ctx.stroke();
 
 Example — a shelf with six boards:
-ctx.strokeStyle = '#ffffff';
-ctx.lineWidth = 2;
-ctx.lineCap = 'round';
 // Frame: left side + top bar + right side (open bottom)
 ctx.beginPath();
 ctx.moveTo(181, 374);
@@ -66,9 +62,6 @@ ctx.beginPath(); ctx.moveTo(175, 302); ctx.bezierCurveTo(280, 302, 380, 302, 427
 ctx.beginPath(); ctx.moveTo(176, 350); ctx.bezierCurveTo(280, 349, 380, 348, 429, 349); ctx.stroke();
 
 Example — a chair with backrest and four legs:
-ctx.strokeStyle = '#ffffff';
-ctx.lineWidth = 2;
-ctx.lineCap = 'round';
 // Backrest (draw first — behind seat)
 ctx.beginPath();
 ctx.moveTo(215, 186);
@@ -96,7 +89,34 @@ ctx.bezierCurveTo(368, 179, 340, 179, 310, 180);
 ctx.closePath();
 ctx.fillStyle = '#000000';
 ctx.fill();
-ctx.strokeStyle = '#ffffff';
-ctx.lineWidth = 2;
 ctx.stroke();
+
+Example — a wardrobe with two doors:
+// top surface (foreshortened — draw first)
+ctx.beginPath();
+ctx.moveTo(100, 65);
+ctx.bezierCurveTo(102, 42, 300, 32, 498, 42);
+ctx.bezierCurveTo(500, 52, 500, 65, 500, 65);
+ctx.closePath();
+ctx.fillStyle = '#000000';
+ctx.fill();
+ctx.stroke();
+// front body (draw after top — covers top's front edge)
+ctx.beginPath();
+ctx.moveTo(100, 65);
+ctx.lineTo(500, 65);
+ctx.lineTo(500, 375);
+ctx.lineTo(100, 375);
+ctx.closePath();
+ctx.fillStyle = '#000000';
+ctx.fill();
+ctx.stroke();
+// door dividers: N doors = N-1 dividers (2 doors → 1 divider at center)
+ctx.beginPath(); ctx.moveTo(300, 65); ctx.lineTo(300, 375); ctx.stroke();
+// door handles: one per door, placed towards the divider side
+ctx.beginPath(); ctx.moveTo(268, 215); ctx.lineTo(268, 238); ctx.stroke(); // left door
+ctx.beginPath(); ctx.moveTo(332, 215); ctx.lineTo(332, 238); ctx.stroke(); // right door
+// feet (draw last — in front of body)
+ctx.beginPath(); ctx.moveTo(125, 375); ctx.lineTo(120, 393); ctx.stroke();
+ctx.beginPath(); ctx.moveTo(475, 375); ctx.lineTo(480, 393); ctx.stroke();
 `
