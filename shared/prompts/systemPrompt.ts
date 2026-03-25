@@ -19,6 +19,13 @@ PERSPECTIVE — 2D view from slightly above and in front:
 - All leg moveTo coordinates must fall inside the tabletop/seat shape — painter's algorithm covers them; legs must never stick out above the surface
 - Tabletops and seats are foreshortened ovals/shapes, wider than deep
 
+MULTIPLE OBJECTS — when the prompt contains more than one piece of furniture:
+- Multiple objects are indicated by "and" / "und". Modifiers like "with N legs" / "mit 2 Beinen" describe a single object — never split them into separate pieces.
+- Divide the canvas into zones and draw each piece in its own zone, scaled down to fit
+- Apply painter's algorithm globally: draw the backmost object first, frontmost last
+- Example layout for table + 2 chairs: table centered in the back half, left chair bottom-left, right chair bottom-right
+- Each object must be fully contained within its zone — never overlap shapes from different objects
+
 ADAPTATION — study the examples below. When the user requests a variant (e.g. fewer legs, more shelves), adapt the closest example and only change what the description requires. Exception: always apply size modifiers (small/large) by rescaling all coordinates to the ranges above.
 - For N legs on a table or chair: you MUST draw exactly N leg strokes — count them. Distribute N/2 evenly along the front edge and N/2 along the back edge. Example for 8 legs: front row at x≈80, 200, 360, 520; back row at x≈130, 230, 390, 510 (slightly inset, higher y). For odd N (e.g. 5): 4 corner legs + 1 single center leg at midpoint — never split center into two.
 - For N doors on a wardrobe: use N-1 dividers, one handle per door.
