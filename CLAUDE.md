@@ -17,14 +17,17 @@ as a simple 2D illustration.
 
 ## Project Structure
 ```
+shared/
+├── prompts/
+│   └── systemPrompt.ts      # Shared system prompt
+└── utils/
+    └── extractCode.ts       # Shared canvas code extractor
 src/
 ├── components/
 │   ├── PromptInput.vue      # Text input for the furniture description
 │   └── FurnitureCanvas.vue  # Canvas component for rendering
 ├── composables/
 │   └── useLLM.ts            # askLLM() – switches between Ollama and Netlify
-├── prompts/
-│   └── systemPrompt.ts      # Shared system prompt for all LLM providers
 ├── stylesheets/
 │   ├── index.css            # Layer declarations + imports
 │   ├── base.css             # @layer base
@@ -35,6 +38,10 @@ netlify/
 └── functions/
     └── ask.ts               # Netlify Function – Anthropic SDK (production)
 ```
+
+## Path Aliases
+- `@/*` → `src/*` (Vite only)
+- `#shared/*` → `shared/*` (Vite + Netlify via `package.json` imports field)
 
 ## LLM Abstraction
 All LLM communication runs through `askLLM()` in `useLLM.ts`. The provider is selected via `VITE_LLM_PROVIDER`:

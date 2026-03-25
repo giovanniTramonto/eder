@@ -1,5 +1,5 @@
-import { SYSTEM_PROMPT } from '../prompts/systemPrompt'
-import { extractCanvasCode } from '../utils/extractCode'
+import { SYSTEM_PROMPT } from '#shared/prompts/systemPrompt'
+import { extractCanvasCode } from '#shared/utils/extractCode'
 
 interface OllamaResponse {
   message: { content: string }

@@ -1,6 +1,6 @@
 import Anthropic from '@anthropic-ai/sdk'
-import { SYSTEM_PROMPT } from '../../src/prompts/systemPrompt'
-import { extractCanvasCode } from '../../src/utils/extractCode'
+import { SYSTEM_PROMPT } from '#shared/prompts/systemPrompt'
+import { extractCanvasCode } from '#shared/utils/extractCode'
 
 const client = new Anthropic()
 
