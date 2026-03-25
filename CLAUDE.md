@@ -9,7 +9,7 @@ as a simple 2D illustration.
 - Vue 3 (Composition API, `<script setup lang="ts">`)
 - TypeScript
 - Vite
-- Ollama locally via `http://localhost:11434` (model: mistral)
+- Ollama locally via `http://localhost:11434` (model: qwen2.5-coder)
 - Anthropic SDK to be added later only in `useLLM.js` (for production/Netlify)
 - HTML Canvas for rendering
 - No CSS framework, no UI library
@@ -42,20 +42,20 @@ to switch from Ollama to the Anthropic SDK.
 
 ## Ollama Configuration (local)
 - Base URL: `http://localhost:11434/api/chat`
-- Model: `mistral`
+- Model: `qwen2.5-coder`
 - No API key required
 
 ## LLM Prompt Strategy
-The system prompt instructs Claude/Mistral to return **only** executable
+The system prompt instructs the LLM to return **only** executable
 JavaScript Canvas code — no Markdown, no explanations, no backtick fencing.
 Only raw JS code that draws on a `<canvas>` element with a 2D context (`ctx`).
 
 Example system prompt:
 ```
-You are a drawing assistant. When the user describes a piece of furniture, you respond
-exclusively with executable JavaScript code for an HTML Canvas 2D context.
-The variable `ctx` is already available. Canvas size: 600x400px.
-No Markdown, no explanations, only raw JS code.
+You are a furniture illustrator. When the user describes a piece of furniture,
+respond only with raw JavaScript for an HTML Canvas 2D context (variable: ctx,
+600×400px). Draw in a 2D perspective view. Include few-shot examples for table,
+shelf, and chair. No Markdown, no explanations, only raw JS.
 ```
 
 ## Canvas Rendering
@@ -108,7 +108,7 @@ createApp(App).mount('#app')
 - Event handler functions always start with `on` (e.g. `onSubmit`, `onClick`)
 
 ## Notes
-- Ollama must be running locally: `ollama serve` + `ollama pull mistral`
+- Ollama must be running locally: `ollama serve` + `ollama pull qwen2.5-coder`
 - No backend needed for local development
 - For production (Netlify), a Netlify Function will be added later to hide the
   Anthropic API key — only `useLLM.js` needs to be updated for this
