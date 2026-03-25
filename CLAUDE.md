@@ -75,7 +75,7 @@ shelf, and chair. No Markdown, no explanations, only raw JS.
 - Errors during code execution must be shown in the UI (try/catch)
 
 ## UI Flow
-1. User enters a description (e.g. "A round wooden table with four legs")
+1. User enters a description (e.g. "A round table with four legs")
 2. Button "Build" → `askLLM()` is called
 3. Loading indicator while the request is in progress
 4. Canvas renders the result

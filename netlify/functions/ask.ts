@@ -1,6 +1,7 @@
 import Anthropic from '@anthropic-ai/sdk'
 import { SYSTEM_PROMPT } from '#shared/prompts/systemPrompt'
 import { extractCanvasCode } from '#shared/utils/extractCode'
+import { MAX_PROMPT_LENGTH } from '#shared/config'
 
 const client = new Anthropic()
 
@@ -10,6 +11,20 @@ export default async (req: Request) => {
   }
 
   const { prompt } = await req.json()
+
+  if (!prompt || typeof prompt !== 'string' || prompt.trim().length === 0) {
+    return new Response(JSON.stringify({ error: 'Prompt is required.' }), {
+      status: 400,
+      headers: { 'Content-Type': 'application/json' },
+    })
+  }
+
+  if (prompt.length > MAX_PROMPT_LENGTH) {
+    return new Response(JSON.stringify({ error: `Prompt must not exceed ${MAX_PROMPT_LENGTH} characters.` }), {
+      status: 400,
+      headers: { 'Content-Type': 'application/json' },
+    })
+  }
 
   const message = await client.messages.create({
     model: 'claude-haiku-4-5-20251001',
