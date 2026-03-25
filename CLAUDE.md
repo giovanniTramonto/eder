@@ -18,6 +18,7 @@ as a simple 2D illustration.
 ## Project Structure
 ```
 shared/
+├── config.ts                # Shared constants (MAX_PROMPT_LENGTH, MAX_SESSION_REQUESTS)
 ├── prompts/
 │   └── systemPrompt.ts      # Shared system prompt
 └── utils/
@@ -44,12 +45,12 @@ netlify/
 - `#shared/*` → `shared/*` (Vite + Netlify via `package.json` imports field)
 
 ## LLM Abstraction
-All LLM communication runs through `askLLM()` in `useLLM.ts`. The provider is selected via `VITE_LLM_PROVIDER`:
+All LLM communication runs through `askLLM()` in `useLLM.ts`. The provider is selected automatically:
 
-- `ollama` (default) → calls Ollama directly from the browser
-- `anthropic` → calls the Netlify Function at `/api/ask`, which uses the Anthropic SDK server-side
+- `VITE_OLLAMA_URL` is set → calls Ollama directly from the browser
+- `VITE_OLLAMA_URL` is not set → calls the Netlify Function at `/api/ask`
 
-The system prompt lives in `src/prompts/systemPrompt.ts` and is shared by both providers.
+The system prompt lives in `shared/prompts/systemPrompt.ts` and is shared by both providers.
 
 ## Ollama Configuration (local)
 - Base URL: `http://localhost:11434/api/chat`
@@ -108,7 +109,13 @@ Andy Bell's Modern CSS Reset is loaded via `src/stylesheets/index.css` using `@l
 - Boolean state variables always use the `is` prefix (e.g. `isLoading`, `isDisabled`)
 - Event handler functions always start with `on` (e.g. `onSubmit`, `onClick`)
 
+## Rate Limiting (production only)
+- Prompt max length: `MAX_PROMPT_LENGTH` (defined in `shared/config.ts`)
+- Session limit: `MAX_SESSION_REQUESTS` requests per session (tracked via Netlify Blobs)
+- Session ID generated client-side (`crypto.randomUUID()`) and stored in `sessionStorage`
+- Button is disabled client-side when limit is reached
+
 ## Notes
 - Ollama must be running locally: `ollama serve` + `ollama pull qwen2.5-coder`
 - No backend needed for local development
-- Production on Netlify: set `VITE_LLM_PROVIDER=anthropic` and `ANTHROPIC_API_KEY` in Netlify env vars
+- Production on Netlify: only `ANTHROPIC_API_KEY` needs to be set — `VITE_OLLAMA_URL` is absent by default

@@ -6,7 +6,7 @@ interface OllamaResponse {
 }
 
 export async function askLLM(prompt: string): Promise<string> {
-  if (import.meta.env.VITE_LLM_PROVIDER === 'anthropic') {
+  if (!import.meta.env.VITE_OLLAMA_URL) {
     return askNetlify(prompt)
   }
   return askOllama(prompt)

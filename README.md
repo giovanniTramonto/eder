@@ -35,8 +35,9 @@ npm run dev
 Set these environment variables in Netlify:
 
 ```
-VITE_LLM_PROVIDER=anthropic
 ANTHROPIC_API_KEY=sk-ant-...
 ```
 
 The Netlify Function at `netlify/functions/ask.ts` handles the API call server-side.
+
+Session requests are tracked via Netlify Blobs — limits are configured in `shared/config.ts`.
