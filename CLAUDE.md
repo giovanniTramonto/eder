@@ -110,9 +110,8 @@ Andy Bell's Modern CSS Reset is loaded via `src/stylesheets/index.css` using `@l
 - Event handler functions always start with `on` (e.g. `onSubmit`, `onClick`)
 
 ## Rate Limiting (production only)
-- Prompt max length: `MAX_PROMPT_LENGTH` (defined in `shared/config.ts`)
-- Session limit: `MAX_SESSION_REQUESTS` requests per session (tracked via Netlify Blobs)
-- Session ID generated client-side (`crypto.randomUUID()`) and stored in `sessionStorage`
+- Constants defined in `shared/config.ts`: `MAX_PROMPT_LENGTH`, `MAX_SESSION_REQUESTS`, `SESSION_DURATION_MS`
+- Server-side tracking via Netlify Blobs
 - Button is disabled client-side when limit is reached
 
 ## Notes
